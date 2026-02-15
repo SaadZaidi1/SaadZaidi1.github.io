@@ -490,7 +490,7 @@
     padding: 1rem;
     transition: border-color 0.25s, box-shadow 0.25s, opacity 0.65s ease, translate 0.65s ease;
     display: flex; flex-direction: column;
-    cursor: none;
+    cursor: pointer;
     opacity: 0;
     translate: 0 24px;
     width: 200px;
@@ -1135,6 +1135,7 @@
         const color = langColors[lang] || '#8b949e';
         const card = document.createElement('div');
         card.className = 'repo-card';
+        card.setAttribute('data-url', r.html_url);
         // Stagger by column position in 3-col grid
         const col = i % 3;
         card.style.transitionDelay = (col * 0.1) + 's';
@@ -1147,9 +1148,10 @@
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               ${r.stargazers_count}
             </span>
-            <a href="${r.html_url}" target="_blank" class="repo-link">↗</a>
+            <span class="repo-link">↗ View</span>
           </div>
         `;
+        card.addEventListener('click', () => window.open(r.html_url, '_blank'));
         grid.appendChild(card);
       });
 
@@ -1165,12 +1167,14 @@
 
   // Drag to scroll
   let isDragging = false;
+  let didDrag = false;
   let startY = 0;
   let startScrollY = 0;
 
   document.addEventListener('mousedown', e => {
     if (e.target.closest('a, button, input, textarea, select')) return;
     isDragging = true;
+    didDrag = false;
     startY = e.clientY;
     startScrollY = window.scrollY;
     document.body.style.userSelect = 'none';
@@ -1180,30 +1184,38 @@
   document.addEventListener('mousemove', e => {
     if (!isDragging) return;
     const delta = startY - e.clientY;
-    window.scrollTo({ top: startScrollY + delta * 1.5, behavior: 'instant' });
+    if (Math.abs(delta) > 4) didDrag = true; // only scroll if moved more than 4px
+    if (didDrag) window.scrollTo({ top: startScrollY + delta * 1.5, behavior: 'instant' });
   });
 
-  document.addEventListener('mouseup', () => {
+  document.addEventListener('mouseup', e => {
     if (!isDragging) return;
+    // If barely moved, treat as a click — open repo card if applicable
+    if (!didDrag) {
+      const card = e.target.closest('.repo-card');
+      if (card && card.dataset.url) window.open(card.dataset.url, '_blank');
+    }
     isDragging = false;
+    didDrag = false;
     document.body.style.userSelect = '';
     document.body.classList.remove('dragging');
   });
 
   document.addEventListener('mouseleave', () => {
     isDragging = false;
+    didDrag = false;
     document.body.style.userSelect = '';
     document.body.classList.remove('dragging');
   });
 
-  // Build email at runtime to prevent Cloudflare obfuscation
-  const u = 'saadzaidi129';
-  const d = 'gmail.com';
+  // Build email at runtime using reversed string - bypasses Cloudflare scanner
+  const rev = 'moc.liamg@921idiazداas'.split('').reverse().join('');
+  const re2 = ['m','o','c','.','l','i','a','m','g','@','9','2','1','i','d','i','a','z','d','a','a','s'].reverse().join('');
   const emailEl = document.getElementById('email-link');
   const emailText = document.getElementById('email-text');
   if (emailEl && emailText) {
-    emailEl.href = 'mailto:' + u + '@' + d;
-    emailText.textContent = u + '@' + d;
+    emailEl.href = 'mailto:' + re2;
+    emailText.textContent = re2;
   }
 
   // Active nav highlight
