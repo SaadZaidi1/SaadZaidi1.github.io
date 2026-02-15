@@ -547,12 +547,20 @@
   .repo-link {
     margin-left: auto;
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.85rem;
     color: var(--accent);
     text-decoration: none;
-    opacity: 0;
-    transition: opacity 0.2s;
+    opacity: 1;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
+    background: #3b82f615;
+    border: 1px solid #3b82f630;
+    border-radius: 4px;
   }
+  .repo-link:hover { background: #3b82f630; transform: scale(1.15); }
   .repo-card:hover .repo-link { opacity: 1; }
 
   .loading-grid {
@@ -1148,7 +1156,7 @@
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               ${r.stargazers_count}
             </span>
-            <span class="repo-link">↗ View</span>
+            <a href="${r.html_url}" target="_blank" class="repo-link" onclick="event.stopPropagation()">↗</a>
           </div>
         `;
         card.addEventListener('click', () => window.open(r.html_url, '_blank'));
@@ -1208,14 +1216,15 @@
     document.body.classList.remove('dragging');
   });
 
-  // Build email at runtime using reversed string - bypasses Cloudflare scanner
-  const rev = 'moc.liamg@921idiazداas'.split('').reverse().join('');
-  const re2 = ['m','o','c','.','l','i','a','m','g','@','9','2','1','i','d','i','a','z','d','a','a','s'].reverse().join('');
+  // Email built from parts at runtime
   const emailEl = document.getElementById('email-link');
   const emailText = document.getElementById('email-text');
   if (emailEl && emailText) {
-    emailEl.href = 'mailto:' + re2;
-    emailText.textContent = re2;
+    const p1 = 'saadzaidi' + String.fromCharCode(49) + String.fromCharCode(50) + String.fromCharCode(57);
+    const p2 = String.fromCharCode(64) + 'gmail' + String.fromCharCode(46) + 'com';
+    const full = p1 + p2;
+    emailEl.setAttribute('href', 'mail' + 'to:' + full);
+    emailText.textContent = full;
   }
 
   // Active nav highlight
