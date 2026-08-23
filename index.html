@@ -4,6 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Saad Zaidi — AI & Software Engineer</title>
+<meta name="description" content="Saad Zaidi — AI/ML & Software Engineer building production ML pipelines, scalable backends, and full-stack SaaS. BS Computer Science @ FAST NUCES." />
+<meta name="theme-color" content="#080808" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='28' fill='%233b82f6' text-anchor='middle'%3ESZ%3C/text%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Saad Zaidi — AI & Software Engineer" />
+<meta property="og:description" content="AI/ML & Software Engineer. Production ML pipelines, scalable backends, full-stack SaaS. BS Computer Science @ FAST NUCES." />
+<meta property="og:url" content="https://saadzaidi1.github.io/" />
+<meta name="twitter:card" content="summary" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -116,6 +124,20 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--text); }
+
+  /* Mobile nav toggle */
+  .nav-toggle { display: none; }
+
+  /* Scroll progress bar */
+  #progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 200;
+    transition: width 0.08s linear;
+    pointer-events: none;
+  }
 
   /* HERO */
   #hero {
@@ -412,6 +434,8 @@
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: none;
+    display: flex;
+    flex-direction: column;
   }
   .feat-card::before {
     content: '';
@@ -471,6 +495,91 @@
     font-size: 0.63rem;
     color: #555;
   }
+  .feat-links {
+    display: flex; gap: 1.25rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .feat-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .feat-link:hover { transform: translateX(3px); }
+  .feat-link.muted { color: #555; }
+  .feat-link.muted:hover { color: #888; }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline {
+    position: relative;
+    max-width: 820px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--border) 85%);
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 2.75rem;
+    margin-bottom: 3.5rem;
+  }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-dot {
+    position: absolute; left: 0; top: 6px;
+    width: 15px; height: 15px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 14px #3b82f655;
+  }
+  .timeline-date {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+  }
+  .timeline-role {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .timeline-company {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #777;
+    letter-spacing: 0.04em;
+    margin: 0.35rem 0 1rem;
+  }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    position: relative;
+    padding-left: 1.2rem;
+    color: #888;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-bullets li::before {
+    content: '▸';
+    position: absolute; left: 0; top: 0.22rem;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+  .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.1rem; }
 
   /* GITHUB PROJECTS */
   .github-grid-wrapper {
@@ -626,6 +735,28 @@
     color: var(--muted);
     letter-spacing: 0.05em;
   }
+  .achv-row {
+    display: flex; gap: 0.75rem; flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .achv-chip {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.6rem 1.1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: #999;
+    transition: all 0.2s;
+  }
+  .achv-chip:hover {
+    border-color: #f59e0b40;
+    color: var(--yellow);
+    transform: translateY(-2px);
+  }
+  .achv-chip .medal { font-size: 0.95rem; }
 
   /* RESUME */
   #resume {
@@ -728,9 +859,59 @@
   .lang-jupyter { background: #da5b0b; }
   .lang-other { background: #8b949e; }
 
+  /* Touch devices: restore native cursor, hide custom cursor */
+  @media (hover: none), (pointer: coarse) {
+    body, a, button, .feat-card, .repo-card, .skill-tag, .contact-link { cursor: auto; }
+    #cursor, #cursor-ring { display: none !important; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal, .repo-card { opacity: 1; transform: none; translate: 0 0; }
+    .hero-tag, h1.hero-name, .hero-title-line, .hero-bio, .hero-ctas, .hero-stats {
+      opacity: 1;
+      animation: none;
+    }
+  }
+
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
+    .nav-toggle {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      width: 40px; height: 40px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      position: relative;
+      z-index: 102;
+    }
+    .nav-toggle span {
+      display: block; width: 16px; height: 1.5px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-links {
+      display: none;
+      position: fixed; top: 61px; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1.5rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+    .nav-links li:last-child { border-bottom: none; }
     section { padding: 4rem 1.5rem; }
     #hero { padding: 0 1.5rem; }
     .hero-stats { display: none; }
@@ -747,16 +928,21 @@
 <!-- Custom Cursor -->
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
+<div id="progress-bar"></div>
 
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">SZ<span>.</span></a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -773,7 +959,7 @@
     <h1 class="hero-name">Saad<br>Zaidi</h1>
     <div class="hero-title-line typewriter" id="typewriter"></div>
     <p class="hero-bio">
-      CS student at FAST NUCES, building at the intersection of AI and backend engineering. From LLM systems to production APIs — I ship things that work.
+      AI/ML &amp; software engineer at FAST NUCES. Built anomaly-detection systems for telecom power fleets at Saltec, shipped Anchor AI — a live production SaaS — and delivered full-stack products as a freelancer.
     </p>
     <div class="hero-ctas">
       <a href="#projects" class="btn-primary">
@@ -789,16 +975,16 @@
 
   <div class="hero-stats">
     <div class="stat">
-      <div class="stat-num">3+</div>
-      <div class="stat-label">Projects</div>
+      <div class="stat-num">20+</div>
+      <div class="stat-label">GitHub Repos</div>
     </div>
     <div class="stat">
-      <div class="stat-num">AI</div>
-      <div class="stat-label">Focused</div>
+      <div class="stat-num">Live</div>
+      <div class="stat-label">SaaS Shipped</div>
     </div>
     <div class="stat">
-      <div class="stat-num">FAST</div>
-      <div class="stat-label">NUCES</div>
+      <div class="stat-num">2×</div>
+      <div class="stat-label">Dean's List</div>
     </div>
   </div>
 </section>
@@ -815,14 +1001,14 @@
 
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>I'm a <strong>Computer Science student at FAST NUCES</strong> with a genuine passion for building AI-powered systems and robust backend architectures. I thrive at the intersection of research and engineering.</p>
-      <p>From prompt-engineering GPT-4 to building <strong>RAG-based microservices</strong> and deploying Dockerized APIs, I focus on shipping clean, scalable solutions to real problems.</p>
-      <p>Currently on the <strong>Dean's List</strong> and always looking for the next interesting problem to solve.</p>
+      <p>I'm an <strong>AI/ML &amp; Software Engineer</strong> studying Computer Science at FAST NUCES, with hands-on experience shipping production ML pipelines and scalable backend systems.</p>
+      <p>I recently completed an <strong>AI/ML internship at Saltec</strong>, building a hybrid rule + ML anomaly-detection library for a multi-site telecom power infrastructure fleet. Before that, I freelanced as a <strong>backend &amp; full-stack developer</strong>, independently owning architecture, deployment, and post-launch support for multiple clients.</p>
+      <p>I also architected and shipped <strong>Anchor AI</strong>, an AI-powered productivity SaaS that's live in production — spanning database design, LLM automation, payment integration, and containerized deployment.</p>
 
       <div class="edu-card">
         <div class="edu-title">FAST National University</div>
-        <div class="edu-sub" style="margin-top:0.2rem">BS Computer Science · 2023 – Present</div>
-        <div class="edu-badge">Dean's List — 3rd Semester</div>
+        <div class="edu-sub" style="margin-top:0.2rem">BS Computer Science · 2023 – 2027</div>
+        <div class="edu-badge">Dean's List — 3rd &amp; 6th Semester</div>
       </div>
     </div>
 
@@ -830,46 +1016,125 @@
       <div class="skill-group reveal reveal-delay-1">
         <div class="skill-group-label">Languages</div>
         <div class="skill-tags">
-          <span class="skill-tag">C++</span>
           <span class="skill-tag">Python</span>
-          <span class="skill-tag">Assembly</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">C++</span>
           <span class="skill-tag">C</span>
+          <span class="skill-tag">Assembly</span>
         </div>
       </div>
       <div class="skill-group reveal reveal-delay-2">
-        <div class="skill-group-label">Frameworks & Libraries</div>
+        <div class="skill-group-label">Machine Learning / AI</div>
         <div class="skill-tags">
-          <span class="skill-tag">Flask</span>
-          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">PyTorch</span>
           <span class="skill-tag">TensorFlow</span>
           <span class="skill-tag">Keras</span>
-          <span class="skill-tag">Streamlit</span>
-          <span class="skill-tag">Pandas</span>
           <span class="skill-tag">scikit-learn</span>
-          <span class="skill-tag">NumPy</span>
-          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">XGBoost</span>
           <span class="skill-tag">Hugging Face</span>
-          <span class="skill-tag">Haystack-AI</span>
           <span class="skill-tag">OpenAI API</span>
+          <span class="skill-tag">Stability AI</span>
+          <span class="skill-tag">SHAP</span>
+          <span class="skill-tag">Streamlit</span>
         </div>
       </div>
       <div class="skill-group reveal reveal-delay-3">
-        <div class="skill-group-label">Databases</div>
+        <div class="skill-group-label">Backend</div>
         <div class="skill-tags">
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">SQLite3</span>
-          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">JWT Auth</span>
+          <span class="skill-tag">Celery</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">SQLAlchemy</span>
+          <span class="skill-tag">Alembic</span>
+          <span class="skill-tag">Pydantic</span>
         </div>
       </div>
       <div class="skill-group reveal">
-        <div class="skill-group-label">Tools & Platforms</div>
+        <div class="skill-group-label">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Vite</span>
+          <span class="skill-tag">Three.js</span>
+          <span class="skill-tag">React-Three-Fiber</span>
+          <span class="skill-tag">Valtio</span>
+          <span class="skill-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-label">Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">SQLite3</span>
+          <span class="skill-tag">Supabase</span>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-label">DevOps &amp; Tools</div>
         <div class="skill-tags">
           <span class="skill-tag">Docker</span>
-          <span class="skill-tag">GitHub</span>
-          <span class="skill-tag">VS Code</span>
-          <span class="skill-tag">Jupyter</span>
-          <span class="skill-tag">Google Colab</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">GitHub Actions</span>
+          <span class="skill-tag">Render</span>
+          <span class="skill-tag">Railway</span>
+          <span class="skill-tag">Vercel</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Git</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Jun 2026 — Aug 2026</div>
+      <div class="timeline-role">AI/ML Intern</div>
+      <div class="timeline-company">Saltec · Telecom Power Infrastructure</div>
+      <ul class="timeline-bullets">
+        <li>Designed and built a rule + ML hybrid anomaly-detection library covering 20+ use cases across RMS/sensor availability, energy-fault correlation, DG, battery health/SOH, fuel theft, calibration drift, power theft, and solar underperformance for a multi-site telecom fleet.</li>
+        <li>Engineered per-site dynamic thresholds, temporal gap handling, and windowed feature rollups (mean/min/max/slope/completeness) to separate genuine faults from sensor noise and data gaps across live telemetry streams.</li>
+        <li>Built a weak-supervision pipeline generating structured training labels from deterministic physical rules — fuel delta vs refill/theft counters, DG runtime vs grid/solar availability, battery depth-of-discharge vs policy — removing manual annotation at scale.</li>
+      </ul>
+      <div class="timeline-tags">
+        <span class="feat-tech">Python</span>
+        <span class="feat-tech">scikit-learn</span>
+        <span class="feat-tech">Pandas</span>
+        <span class="feat-tech">Time-Series ML</span>
+        <span class="feat-tech">Telemetry</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal reveal-delay-1">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2025 — 2026</div>
+      <div class="timeline-role">Freelance Software Developer</div>
+      <div class="timeline-company">Backend &amp; Full-Stack · Independent</div>
+      <ul class="timeline-bullets">
+        <li>Delivered backend and full-stack web applications for multiple clients — an internal operations portal for a water-treatment business, a POS system for a restaurant, and a real-time 3D AI-powered product customizer.</li>
+        <li>Independently owned architecture, deployment, and post-launch support end-to-end for every engagement.</li>
+      </ul>
+      <div class="timeline-tags">
+        <span class="feat-tech">Flask</span>
+        <span class="feat-tech">React</span>
+        <span class="feat-tech">Three.js</span>
+        <span class="feat-tech">Node.js</span>
+        <span class="feat-tech">SQLite3</span>
       </div>
     </div>
   </div>
@@ -880,7 +1145,7 @@
 <!-- FEATURED WORK -->
 <section id="work">
   <div class="section-header reveal">
-    <span class="section-num">02</span>
+    <span class="section-num">03</span>
     <h2 class="section-title">Featured Work</h2>
     <div class="section-line"></div>
   </div>
@@ -888,40 +1153,53 @@
   <div class="featured-grid">
     <div class="feat-card reveal">
       <div class="feat-card-num">01</div>
-      <div class="feat-card-title">LLM Engineering</div>
-      <div class="feat-card-desc">Prompt-engineering experiments on GPT-4 and open-source models with modular mini-apps for text generation, summarization, and classification.</div>
-      <div class="feat-card-stat">↑ 30%+ accuracy improvement</div>
+      <div class="feat-card-title">Anchor AI</div>
+      <div class="feat-card-desc">Full-stack SaaS ADHD productivity agent delivering personalized task management via WhatsApp — Google OAuth, phone OTP verification, Paddle subscription billing, a GPT-4o Mini pipeline, Celery Beat scheduling, and an 18-table PostgreSQL schema. Live in production.</div>
+      <div class="feat-card-stat">● Live at anchorai.online</div>
       <div class="feat-tech-tags">
-        <span class="feat-tech">Python</span>
-        <span class="feat-tech">Jupyter</span>
-        <span class="feat-tech">Hugging Face</span>
-        <span class="feat-tech">OpenAI API</span>
+        <span class="feat-tech">FastAPI</span>
+        <span class="feat-tech">React</span>
+        <span class="feat-tech">PostgreSQL</span>
+        <span class="feat-tech">Celery</span>
+        <span class="feat-tech">Redis</span>
+        <span class="feat-tech">Paddle</span>
+        <span class="feat-tech">Docker</span>
+      </div>
+      <div class="feat-links" style="margin-top: 1.5rem;">
+        <a href="https://anchorai.online" target="_blank" rel="noopener" class="feat-link">Live Site ↗</a>
+        <a href="https://github.com/SaadZaidi1/Anchor-AI-Backend" target="_blank" rel="noopener" class="feat-link muted">Backend ↗</a>
+        <a href="https://github.com/SaadZaidi1/Anchor-AI-Frontend" target="_blank" rel="noopener" class="feat-link muted">Frontend ↗</a>
       </div>
     </div>
 
     <div class="feat-card reveal reveal-delay-1">
       <div class="feat-card-num">02</div>
-      <div class="feat-card-title">Crowd-Funding Platform</div>
-      <div class="feat-card-desc">RESTful API with ACID-compliant transactions and a RAG-based FAQ microservice using vector embeddings, containerized with Docker.</div>
-      <div class="feat-card-stat">↓ 40% support queries via RAG</div>
+      <div class="feat-card-title">Intelligent CNC Process Monitoring &amp; Defect Prediction</div>
+      <div class="feat-card-desc">3-layer ML pipeline over 18 GB of sensor data: LSTM Autoencoder anomaly detection, 1D-CNN + XGBoost tool-wear classification, and stacked BiLSTM + Bahdanau Attention RUL prediction — with SHAP feature-level explainability across 1,000+ engineered features.</div>
+      <div class="feat-card-stat">F1 0.9316 · Acc 87.95% · R² 0.5930</div>
       <div class="feat-tech-tags">
-        <span class="feat-tech">Flask</span>
-        <span class="feat-tech">FastAPI</span>
-        <span class="feat-tech">PostgreSQL</span>
-        <span class="feat-tech">Docker</span>
-        <span class="feat-tech">JavaScript</span>
+        <span class="feat-tech">PyTorch</span>
+        <span class="feat-tech">XGBoost</span>
+        <span class="feat-tech">scikit-learn</span>
+        <span class="feat-tech">SHAP</span>
+      </div>
+      <div class="feat-links" style="margin-top: 1.5rem;">
+        <a href="https://github.com/SaadZaidi1/intelligent-cnc-monitoring" target="_blank" rel="noopener" class="feat-link muted">Repository ↗</a>
       </div>
     </div>
 
     <div class="feat-card reveal reveal-delay-2">
       <div class="feat-card-num">03</div>
-      <div class="feat-card-title">RO-Plant Portal</div>
-      <div class="feat-card-desc">Freelance internal dashboard for tracking bottle sales, customer accounts, and live profit totals — replacing paper logs entirely.</div>
-      <div class="feat-card-stat">2hrs → 5min reconciliation</div>
+      <div class="feat-card-title">3DShopX — Real-time 3D T-shirt Customizer</div>
+      <div class="feat-card-desc">Client-built AI-powered T-shirt customization platform: apply colors, textures, and decals to an interactive 3D model with multi-angle viewing. Stability AI text-to-image generates custom artwork applied directly to the shirt; Valtio drives reactive state with a Node/Express backend.</div>
+      <div class="feat-card-stat">Real-time 3D × Generative AI</div>
       <div class="feat-tech-tags">
-        <span class="feat-tech">Flask</span>
-        <span class="feat-tech">JavaScript</span>
-        <span class="feat-tech">SQLite3</span>
+        <span class="feat-tech">React Three Fiber</span>
+        <span class="feat-tech">Three.js</span>
+        <span class="feat-tech">Valtio</span>
+        <span class="feat-tech">Node.js</span>
+        <span class="feat-tech">Express</span>
+        <span class="feat-tech">Stability AI</span>
       </div>
     </div>
   </div>
@@ -932,7 +1210,7 @@
 <!-- GITHUB PROJECTS -->
 <section id="projects">
   <div class="section-header reveal">
-    <span class="section-num">03</span>
+    <span class="section-num">04</span>
     <h2 class="section-title">GitHub Projects</h2>
     <div class="section-line"></div>
   </div>
@@ -955,7 +1233,7 @@
 <!-- CERTIFICATIONS -->
 <section id="certs">
   <div class="section-header reveal">
-    <span class="section-num">04</span>
+    <span class="section-num">05</span>
     <h2 class="section-title">Certifications</h2>
     <div class="section-line"></div>
   </div>
@@ -967,6 +1245,18 @@
       <div class="cert-sub">Udemy · Ed Donner · 2024</div>
     </div>
   </div>
+
+  <div class="achv-row reveal reveal-delay-1">
+    <a href="https://github.com/SaadZaidi1" target="_blank" rel="noopener" class="achv-chip" style="text-decoration:none;">
+      <span class="medal">🦈</span> Pull Shark
+    </a>
+    <a href="https://github.com/SaadZaidi1" target="_blank" rel="noopener" class="achv-chip" style="text-decoration:none;">
+      <span class="medal">🤝</span> Pair Extraordinaire
+    </a>
+    <a href="https://github.com/SaadZaidi1" target="_blank" rel="noopener" class="achv-chip" style="text-decoration:none;">
+      <span class="medal">🎯</span> YOLO
+    </a>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -974,7 +1264,7 @@
 <!-- RESUME -->
 <section id="resume">
   <div class="section-header reveal" style="justify-content:center; margin-bottom: 1.5rem;">
-    <span class="section-num">05</span>
+    <span class="section-num">06</span>
     <h2 class="section-title">Resume</h2>
   </div>
   <div class="resume-inner">
@@ -991,13 +1281,13 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-num">06</span>
+    <span class="section-num">07</span>
     <h2 class="section-title">Get in Touch</h2>
     <div class="section-line"></div>
   </div>
 
   <p class="reveal" style="color: #666; margin-bottom: 2rem; font-size: 0.9rem; max-width: 480px; line-height: 1.7;">
-    Open to internships, collaborations, and interesting conversations. Reach out anywhere below.
+    Open to internships, freelance work, collaborations, and interesting conversations. Reach out anywhere below.
   </p>
 
   <div class="contact-links">
@@ -1018,65 +1308,84 @@
 
 <!-- FOOTER -->
 <footer>
-  <span class="footer-copy">© 2025 Saad Zaidi — Built with passion</span>
+  <span class="footer-copy">© 2026 Saad Zaidi — Built with passion</span>
   <div class="footer-dot"></div>
 </footer>
 
 <script>
-  // Custom cursor
+  // Custom cursor — skipped on touch devices
+  const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
   let mouseX = 0, mouseY = 0;
   let ringX = 0, ringY = 0;
   let cursorVisible = false;
 
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.transform = `translate(calc(-50% + ${mouseX}px), calc(-50% + ${mouseY}px))`;
-    if (!cursorVisible) {
-      cursorVisible = true;
-      cursor.style.opacity = '1';
-      ring.style.opacity = '1';
-    }
-  });
+  if (!isTouch) {
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.transform = `translate(calc(-50% + ${mouseX}px), calc(-50% + ${mouseY}px))`;
+      if (!cursorVisible) {
+        cursorVisible = true;
+        cursor.style.opacity = '1';
+        ring.style.opacity = '1';
+      }
+    });
 
-  document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0';
-    ring.style.opacity = '0';
-  });
-  document.addEventListener('mouseenter', () => {
-    if (cursorVisible) {
-      cursor.style.opacity = '1';
-      ring.style.opacity = '1';
-    }
-  });
+    document.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      if (cursorVisible) {
+        cursor.style.opacity = '1';
+        ring.style.opacity = '1';
+      }
+    });
 
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
-    ring.style.transform = `translate(calc(-50% + ${ringX}px), calc(-50% + ${ringY}px))`;
-    requestAnimationFrame(animateRing);
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.transform = `translate(calc(-50% + ${ringX}px), calc(-50% + ${ringY}px))`;
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .feat-card, .repo-card, .skill-tag').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        ring.style.width = '56px';
+        ring.style.height = '56px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+      });
+    });
   }
-  animateRing();
 
-  document.querySelectorAll('a, button, .feat-card, .repo-card, .skill-tag').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '20px';
-      cursor.style.height = '20px';
-      ring.style.width = '56px';
-      ring.style.height = '56px';
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinksEl = document.getElementById('navLinks');
+  if (navToggle && navLinksEl) {
+    navToggle.addEventListener('click', () => {
+      const open = navLinksEl.classList.toggle('open');
+      navToggle.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '12px';
-      cursor.style.height = '12px';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
-    });
-  });
+    navLinksEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinksEl.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }));
+  }
 
   // Typewriter
-  const titles = ['AI Engineer.', 'Backend Dev.', 'CS @ FAST.', 'LLM Builder.'];
+  const titles = ['AI Engineer.', 'ML Engineer.', 'Full-Stack Dev.', 'LLM Builder.'];
   let ti = 0, ci = 0, deleting = false;
   const tw = document.getElementById('typewriter');
 
@@ -1227,16 +1536,22 @@
     emailText.textContent = full;
   }
 
-  // Active nav highlight
+  // Active nav highlight + scroll progress bar
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
+  const progressBar = document.getElementById('progress-bar');
   window.addEventListener('scroll', () => {
     let cur = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) cur = s.id; });
     navLinks.forEach(a => {
       a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--text)' : '';
     });
-  });
+    if (progressBar) {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      progressBar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    }
+  }, { passive: true });
 </script>
 </body>
 </html>
