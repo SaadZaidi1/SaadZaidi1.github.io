@@ -180,6 +180,17 @@
     background-size: 60px 60px;
   }
 
+  /* WebGL hero layer */
+  #hero3d {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  #hero3d.on { opacity: 1; }
+
   .hero-content { position: relative; z-index: 2; max-width: 900px; }
 
   .hero-tag {
@@ -577,6 +588,14 @@
     letter-spacing: 0.05em;
     color: #a5b4fc;
   }
+
+  /* 3DShopX live 3D mock layer */
+  .fv-shop canvas.fv3d {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .fv-shop.webgl-on svg.shirt { display: none; }
 
   .feat-card-num {
     position: absolute; top: 1.5rem; right: 1.5rem;
@@ -1101,6 +1120,7 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
+    <canvas id="hero3d" aria-hidden="true"></canvas>
   </div>
 
   <div class="hero-content">
@@ -1791,6 +1811,271 @@
       progressBar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
     }
   }, { passive: true });
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+  /* WebGL scenes: hero centerpiece + 3DShopX card mock. Three.js loads via
+     CDN import map; on import/WebGL failure the existing CSS/SVG visuals remain. */
+  (async () => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouchDev = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+    let THREE;
+    try { THREE = await import('three'); } catch (err) { return; }
+
+    // Renders only while element is on-screen AND tab visible
+    function autoLoop(renderFrame, watchEl) {
+      let inView = true, pageVisible = !document.hidden, running = false, rafId = null;
+      function loop() { if (!running) return; renderFrame(); rafId = requestAnimationFrame(loop); }
+      function sync() {
+        const should = inView && pageVisible;
+        if (should && !running) { running = true; loop(); }
+        else if (!should && running) {
+          running = false;
+          if (rafId !== null) cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+      if (watchEl && 'IntersectionObserver' in window) {
+        new IntersectionObserver(entries => {
+          entries.forEach(en => { inView = en.isIntersecting; sync(); });
+        }, { threshold: 0.02 }).observe(watchEl);
+      }
+      document.addEventListener('visibilitychange', () => { pageVisible = !document.hidden; sync(); });
+      return { start: sync };
+    }
+
+    /* HERO: wireframe icosahedron + neural particle core */
+    const heroCanvas = document.getElementById('hero3d');
+    if (heroCanvas) initHero();
+
+    function initHero() {
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, alpha: true, antialias: true });
+      } catch (err) { return; } // no WebGL -> blobs/grid remain
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isTouchDev ? 1.25 : 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.set(0, 0, 9);
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      const shell = new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(2.7, 1)),
+        new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.3 })
+      );
+      group.add(shell);
+
+      const inner = new THREE.LineSegments(
+        new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(1.65, 0)),
+        new THREE.LineBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.45 })
+      );
+      group.add(inner);
+
+      // Particle core packed inside a sphere
+      const COUNT = isTouchDev ? 240 : 480;
+      const pos = new Float32Array(COUNT * 3);
+      for (let i = 0; i < COUNT; i++) {
+        const r = 1.45 * Math.cbrt(Math.random());
+        const th = Math.random() * Math.PI * 2;
+        const ph = Math.acos(2 * Math.random() - 1);
+        pos[i * 3] = r * Math.sin(ph) * Math.cos(th);
+        pos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th);
+        pos[i * 3 + 2] = r * Math.cos(ph);
+      }
+      const coreGeo = new THREE.BufferGeometry();
+      coreGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const core = new THREE.Points(coreGeo, new THREE.PointsMaterial({
+        color: 0x60a5fa, size: 0.055, transparent: true, opacity: 0.85,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      }));
+      group.add(core);
+
+      // Ambient dust drifting through the space
+      const DUST = isTouchDev ? 90 : 180;
+      const dustPos = new Float32Array(DUST * 3);
+      for (let i = 0; i < DUST; i++) {
+        dustPos[i * 3] = (Math.random() - 0.5) * 16;
+        dustPos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+        dustPos[i * 3 + 2] = (Math.random() - 0.5) * 8 - 2;
+      }
+      const dustGeo = new THREE.BufferGeometry();
+      dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+      const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+        color: 0x3b82f6, size: 0.035, transparent: true, opacity: 0.5,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      }));
+      scene.add(dust);
+
+      // Desktop: parked right of headline. Mobile: dimmed behind content.
+      function layout() {
+        const w = heroCanvas.clientWidth || window.innerWidth;
+        const h = heroCanvas.clientHeight || window.innerHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        const desktop = window.innerWidth > 900;
+        group.position.set(desktop ? Math.min(3.2, camera.aspect * 2.3) : 0, desktop ? 0 : 0.9, 0);
+        group.scale.setScalar(desktop ? 1 : 0.7);
+        shell.material.opacity = desktop ? 0.3 : 0.18;
+        core.material.opacity = desktop ? 0.85 : 0.5;
+      }
+      layout();
+      window.addEventListener('resize', layout);
+
+      // Parallax tilt toward the cursor
+      let tx = 0, ty = 0;
+      if (!isTouchDev) {
+        window.addEventListener('mousemove', e => {
+          tx = (e.clientX / window.innerWidth) * 2 - 1;
+          ty = (e.clientY / window.innerHeight) * 2 - 1;
+        }, { passive: true });
+      }
+
+      const clock = new THREE.Clock();
+      function frame() {
+        const t = clock.getElapsedTime();
+        shell.rotation.y = t * 0.12;
+        shell.rotation.x = Math.sin(t * 0.18) * 0.2;
+        inner.rotation.y = -t * 0.24;
+        inner.rotation.z = t * 0.11;
+        core.rotation.y = t * 0.06;
+        dust.rotation.y = t * 0.015;
+        group.rotation.y += (tx * 0.22 - group.rotation.y) * 0.04;
+        group.rotation.x += (ty * 0.12 - group.rotation.x) * 0.04;
+        renderer.render(scene, camera);
+      }
+
+      frame(); // one static frame even under prefers-reduced-motion
+      heroCanvas.classList.add('on'); // fade in over the blobs
+      if (!reducedMotion) autoLoop(frame, heroCanvas).start();
+    }
+
+    /* 3DSHOPX CARD: lazy low-poly 3D shirt mock */
+    const shopHost = document.querySelector('.fv-shop');
+    if (shopHost) {
+      if ('IntersectionObserver' in window) {
+        const shopIO = new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            if (en.isIntersecting) { shopIO.disconnect(); initShop(shopHost); }
+          });
+        }, { rootMargin: '250px' });
+        shopIO.observe(shopHost);
+      } else {
+        initShop(shopHost);
+      }
+    }
+
+    function initShop(host) {
+      let renderer, canvas;
+      try {
+        canvas = document.createElement('canvas');
+        canvas.className = 'fv3d';
+        canvas.setAttribute('aria-hidden', 'true');
+        host.prepend(canvas);
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      } catch (err) {
+        if (canvas) canvas.remove(); // keep SVG mock
+        return;
+      }
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 60);
+      camera.position.set(0, 0, 15.5);
+
+      // Low-poly shirt extruded from the SAME silhouette as the SVG mock (y flipped)
+      const s = new THREE.Shape();
+      s.moveTo(35, 85);
+      s.lineTo(50, 92);
+      s.quadraticCurveTo(60, 84, 70, 92);
+      s.lineTo(85, 85);
+      s.lineTo(98, 72);
+      s.lineTo(88, 60);
+      s.lineTo(84, 66);
+      s.lineTo(84, 12);
+      s.lineTo(36, 12);
+      s.lineTo(36, 66);
+      s.lineTo(32, 60);
+      s.lineTo(22, 72);
+      s.closePath();
+      const geo = new THREE.ExtrudeGeometry(s, {
+        depth: 7, bevelEnabled: true,
+        bevelThickness: 2.2, bevelSize: 2, bevelSegments: 2, curveSegments: 6
+      });
+      geo.center();
+      geo.scale(0.085, 0.085, 0.085);
+
+      const shirt = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
+        color: 0x1b3a5c, roughness: 0.45, metalness: 0.3, flatShading: true
+      }));
+
+      // AI-print decal plate on the chest
+      const decal = new THREE.Mesh(
+        new THREE.BoxGeometry(2.1, 2.45, 0.35),
+        new THREE.MeshStandardMaterial({
+          color: 0x6366f1, emissive: 0x6366f1, emissiveIntensity: 0.35, roughness: 0.35
+        })
+      );
+      decal.position.set(0, -0.15, 0.62);
+
+      const rig = new THREE.Group();
+      rig.add(shirt);
+      rig.add(decal);
+      rig.rotation.x = 0.07;
+      scene.add(rig);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+      keyLight.position.set(5, 8, 10);
+      scene.add(keyLight);
+      const rim = new THREE.PointLight(0x3b82f6, 40, 0, 2);
+      rim.position.set(-9, 4, 8);
+      scene.add(rim);
+
+      function layout() {
+        const w = host.clientWidth || 300;
+        const h = host.clientHeight || 150;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      layout();
+      window.addEventListener('resize', layout);
+
+      // Spin faster while hovered
+      let hover = false;
+      const card = host.closest('.feat-card');
+      if (card) {
+        card.addEventListener('mouseenter', () => { hover = true; });
+        card.addEventListener('mouseleave', () => { hover = false; });
+      }
+
+      const clock = new THREE.Clock();
+      let rotY = -0.35;
+      function frame() {
+        const dt = Math.min(clock.getDelta(), 0.05);
+        rotY += dt * (hover ? 1.5 : 0.4);
+        rig.rotation.y = rotY;
+        rig.position.y = Math.sin(clock.elapsedTime * 1.2) * 0.16;
+        renderer.render(scene, camera);
+      }
+
+      frame(); // static frame for reduced-motion users
+      host.classList.add('webgl-on'); // hides the flat SVG fallback
+      if (!reducedMotion) autoLoop(frame, canvas).start();
+    }
+  })();
 </script>
 </body>
 </html>
