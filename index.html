@@ -11,7 +11,11 @@
 <meta property="og:title" content="Saad Zaidi — AI & Software Engineer" />
 <meta property="og:description" content="AI/ML & Software Engineer. Production ML pipelines, scalable backends, full-stack SaaS. BS Computer Science @ FAST NUCES." />
 <meta property="og:url" content="https://saadzaidi1.github.io/" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="https://saadzaidi1.github.io/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Saad Zaidi — AI & Software Engineer" />
+<meta name="twitter:description" content="AI/ML & Software Engineer. Production ML pipelines, scalable backends, full-stack SaaS." />
+<meta name="twitter:image" content="https://saadzaidi1.github.io/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -451,6 +455,129 @@
   }
   .feat-card:hover::before { opacity: 1; }
 
+  /* Featured card visuals */
+  .feat-visual {
+    position: relative;
+    height: 150px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 80% 0%, #3b82f614, transparent 55%),
+      linear-gradient(160deg, #0c1018, #101010);
+    transition: border-color 0.3s;
+  }
+  .feat-card:hover .feat-visual { border-color: #3b82f645; }
+
+  /* Anchor AI chat mock */
+  .fv-chat {
+    position: absolute; inset: 0;
+    padding: 1rem 1.1rem;
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 0.5rem;
+  }
+  .fv-msg {
+    max-width: 82%;
+    padding: 0.42rem 0.7rem;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.55;
+    color: #999;
+    background: #171717;
+    border: 1px solid var(--border);
+    align-self: flex-start;
+    animation: fvfloat 5s ease-in-out infinite;
+  }
+  .fv-msg.user {
+    align-self: flex-end;
+    color: #cfe1ff;
+    background: #3b82f618;
+    border-color: #3b82f635;
+    animation-delay: 1.2s;
+  }
+  .fv-msg.bot-late { animation-delay: 2.4s; }
+  @keyframes fvfloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+  .fv-badge {
+    position: absolute; top: 0.7rem; right: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    background: #10b98115;
+    border: 1px solid #10b98130;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+    color: var(--green);
+  }
+
+  /* CNC chart mock */
+  .fv-cnc svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fv-chip-row {
+    position: absolute; left: 0.7rem; bottom: 0.7rem;
+    display: flex; gap: 0.4rem; flex-wrap: wrap;
+  }
+  .fv-chip {
+    padding: 0.18rem 0.55rem;
+    background: #ffffff08;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+    color: #777;
+  }
+  .fv-alert {
+    position: absolute; top: 0.7rem; right: 0.7rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
+    background: #ef444412;
+    border: 1px solid #ef444435;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--red);
+    animation: blink-soft 2.4s ease-in-out infinite;
+  }
+  @keyframes blink-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  /* 3DShopX mock */
+  .fv-shop svg.shirt {
+    position: absolute; left: 50%; top: 50%;
+    height: 82%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 8px 22px #00000070);
+    transition: transform 0.5s ease;
+  }
+  .feat-card:hover .fv-shop svg.shirt { transform: translate(-50%, -52%) rotate(-2deg) scale(1.03); }
+  .fv-swatches {
+    position: absolute; left: 0.8rem; bottom: 0.75rem;
+    display: flex; gap: 0.4rem;
+  }
+  .fv-swatches span {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1px solid #ffffff25;
+    box-shadow: 0 2px 6px #00000050;
+  }
+  .fv-decal-tag {
+    position: absolute; top: 0.7rem; right: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    background: #6366f115;
+    border: 1px solid #6366f135;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+    color: #a5b4fc;
+  }
+
   .feat-card-num {
     position: absolute; top: 1.5rem; right: 1.5rem;
     font-family: var(--font-head);
@@ -588,9 +715,10 @@
   }
   .github-grid {
     display: grid;
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.75rem;
-    justify-content: center;
+    width: 100%;
+    max-width: 960px;
   }
   .repo-card {
     background: var(--card);
@@ -602,7 +730,6 @@
     cursor: pointer;
     opacity: 0;
     translate: 0 24px;
-    width: 200px;
   }
   .repo-card.visible {
     opacity: 1;
@@ -674,16 +801,16 @@
 
   .loading-grid {
     display: grid;
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.75rem;
-    justify-content: center;
+    width: 100%;
+    max-width: 960px;
   }
   .skeleton {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 1rem;
-    width: 200px;
     animation: pulse 1.5s ease-in-out infinite;
   }
   .skel-line {
@@ -802,6 +929,30 @@
   .contact-link svg { opacity: 0.5; transition: opacity 0.2s; }
   .contact-link:hover svg { opacity: 1; }
 
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 1rem 1.4rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    cursor: none;
+    transition: all 0.25s;
+  }
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px #3b82f615;
+  }
+  .copy-btn.copied {
+    border-color: #10b98150;
+    color: var(--green);
+  }
+
   /* FOOTER */
   footer {
     padding: 2rem 4rem;
@@ -918,8 +1069,6 @@
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     h1.hero-name { letter-spacing: -1px; }
     footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
-    .github-grid { grid-template-columns: repeat(2, 180px); }
-    .loading-grid { grid-template-columns: repeat(2, 180px); }
   }
 </style>
 </head>
@@ -1153,6 +1302,14 @@
   <div class="featured-grid">
     <div class="feat-card reveal">
       <div class="feat-card-num">01</div>
+      <div class="feat-visual fv-anchor">
+        <div class="fv-chat">
+          <div class="fv-msg">Morning check-in — what's on your plate today?</div>
+          <div class="fv-msg user">Finish API auth, gym at 6</div>
+          <div class="fv-msg bot-late">Broken into 3 micro-steps ✓ First one starts at 4pm.</div>
+        </div>
+        <div class="fv-badge">WhatsApp-connected</div>
+      </div>
       <div class="feat-card-title">Anchor AI</div>
       <div class="feat-card-desc">Full-stack SaaS ADHD productivity agent delivering personalized task management via WhatsApp — Google OAuth, phone OTP verification, Paddle subscription billing, a GPT-4o Mini pipeline, Celery Beat scheduling, and an 18-table PostgreSQL schema. Live in production.</div>
       <div class="feat-card-stat">● Live at anchorai.online</div>
@@ -1174,6 +1331,26 @@
 
     <div class="feat-card reveal reveal-delay-1">
       <div class="feat-card-num">02</div>
+      <div class="feat-visual fv-cnc">
+        <svg viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="cncline" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#6366f1"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="38" x2="300" y2="38" stroke="#ef444455" stroke-dasharray="4 4" stroke-width="1"/>
+          <polyline fill="none" stroke="url(#cncline)" stroke-width="2" points="
+            0,80 15,75 30,82 45,70 60,78 75,72 90,80 105,68 120,76
+            135,71 150,79 165,66 180,74 195,60 210,30 225,18 240,28
+            255,55 270,72 285,76 300,70"/>
+        </svg>
+        <div class="fv-alert">Anomaly detected at t=214</div>
+        <div class="fv-chip-row">
+          <span class="fv-chip">LSTM-AE</span>
+          <span class="fv-chip">XGBoost</span>
+          <span class="fv-chip">SHAP</span>
+        </div>
+      </div>
       <div class="feat-card-title">Intelligent CNC Process Monitoring &amp; Defect Prediction</div>
       <div class="feat-card-desc">3-layer ML pipeline over 18 GB of sensor data: LSTM Autoencoder anomaly detection, 1D-CNN + XGBoost tool-wear classification, and stacked BiLSTM + Bahdanau Attention RUL prediction — with SHAP feature-level explainability across 1,000+ engineered features.</div>
       <div class="feat-card-stat">F1 0.9316 · Acc 87.95% · R² 0.5930</div>
@@ -1190,6 +1367,24 @@
 
     <div class="feat-card reveal reveal-delay-2">
       <div class="feat-card-num">03</div>
+      <div class="feat-visual fv-shop">
+        <svg class="shirt" viewBox="0 0 120 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="tshirtGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1e3a5f"/><stop offset="1" stop-color="#0f1a2a"/>
+            </linearGradient>
+          </defs>
+          <path d="M35,15 L50,8 Q60,16 70,8 L85,15 L98,28 L88,40 L84,34 L84,88 L36,88 L36,34 L32,40 L22,28 Z" fill="url(#tshirtGrad)" stroke="#3b82f655" stroke-width="1"/>
+          <rect x="48" y="34" width="24" height="28" rx="3" fill="#6366f1" opacity="0.9"/>
+        </svg>
+        <div class="fv-swatches">
+          <span style="background:#3b82f6"></span>
+          <span style="background:#6366f1"></span>
+          <span style="background:#10b981"></span>
+          <span style="background:#f59e0b"></span>
+        </div>
+        <div class="fv-decal-tag">AI print</div>
+      </div>
       <div class="feat-card-title">3DShopX — Real-time 3D T-shirt Customizer</div>
       <div class="feat-card-desc">Client-built AI-powered T-shirt customization platform: apply colors, textures, and decals to an interactive 3D model with multi-angle viewing. Stability AI text-to-image generates custom artwork applied directly to the shirt; Valtio drives reactive state with a Node/Express backend.</div>
       <div class="feat-card-stat">Real-time 3D × Generative AI</div>
@@ -1303,6 +1498,7 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
       <span id="email-text"></span>
     </a>
+    <button class="copy-btn" id="emailCopy" type="button" aria-label="Copy email address">⧉ Copy</button>
   </div>
 </section>
 
@@ -1434,10 +1630,13 @@
   };
 
   async function fetchRepos() {
-    try {
-      const res = await fetch('https://api.github.com/users/SaadZaidi1/repos?sort=updated&per_page=12');
-      const repos = await res.json();
-      document.getElementById('skeleton').remove();
+    const KEY = 'gh_repos_v1', TTL = 6 * 60 * 60 * 1000;
+    let cached = null;
+    try { const raw = localStorage.getItem(KEY); if (raw) cached = JSON.parse(raw); } catch (e) {}
+
+    const render = (repos) => {
+      const skel = document.getElementById('skeleton');
+      if (skel) skel.remove();
 
       if (!Array.isArray(repos) || repos.length === 0) {
         document.getElementById('repos-container').innerHTML = '<p style="color:#555;font-family:var(--font-mono);font-size:0.8rem;">No public repos found.</p>';
@@ -1447,37 +1646,55 @@
       const grid = document.createElement('div');
       grid.className = 'github-grid';
 
-      repos.forEach((r, i) => {
-        const lang = (r.language || '').toLowerCase();
+      repos.slice(0, 9).forEach((r, i) => {
+        const lang = (r.lang || r.language || '').toLowerCase();
         const color = langColors[lang] || '#8b949e';
         const card = document.createElement('div');
         card.className = 'repo-card';
-        card.setAttribute('data-url', r.html_url);
-        // Stagger by column position in 3-col grid
+        card.setAttribute('data-url', r.url || r.html_url);
         const col = i % 3;
         card.style.transitionDelay = (col * 0.1) + 's';
         card.innerHTML = `
           <div class="repo-name">${r.name}</div>
-          <div class="repo-desc">${r.description || 'No description.'}</div>
+          <div class="repo-desc">${r.desc || r.description || 'No description.'}</div>
           <div class="repo-meta">
-            ${r.language ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${r.language}</span>` : ''}
+            ${lang ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${r.lang || r.language}</span>` : ''}
             <span class="repo-stars">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              ${r.stargazers_count}
+              ${r.stars ?? r.stargazers_count ?? 0}
             </span>
-            <a href="${r.html_url}" target="_blank" class="repo-link" onclick="event.stopPropagation()">↗</a>
+            <a href="${r.url || r.html_url}" target="_blank" class="repo-link" onclick="event.stopPropagation()">↗</a>
           </div>
         `;
-        card.addEventListener('click', () => window.open(r.html_url, '_blank'));
+        card.addEventListener('click', () => window.open(r.url || r.html_url, '_blank'));
         grid.appendChild(card);
       });
 
       document.getElementById('repos-container').appendChild(grid);
-
-      // Observe each repo card individually for scroll-in reveal
       document.querySelectorAll('.repo-card').forEach(card => repoObserver.observe(card));
-    } catch(e) {
-      document.getElementById('skeleton').innerHTML = '<p style="color:#555;font-family:var(--font-mono);font-size:0.8rem;padding:1rem;">Could not load repos. Check network or GitHub username.</p>';
+    };
+
+    if (cached && Date.now() - cached.t < TTL) { render(cached.data); return; }
+
+    try {
+      const res = await fetch('https://api.github.com/users/SaadZaidi1/repos?sort=updated&per_page=100');
+      if (!res.ok) throw new Error(String(res.status));
+      const all = await res.json();
+      const repos = all
+        .filter(r => !r.fork && r.name !== 'SaadZaidi1' && r.description && r.description.trim())
+        .sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.pushed_at) - new Date(a.pushed_at)));
+      const slim = repos.slice(0, 12).map(r => ({
+        name: r.name, desc: r.description, url: r.html_url,
+        lang: r.language, stars: r.stargazers_count
+      }));
+      render(slim);
+      try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), data: slim })); } catch (e) {}
+    } catch (err) {
+      if (cached) { render(cached.data); }
+      else {
+        const skel = document.getElementById('skeleton');
+        if (skel) skel.innerHTML = '<p style="color:#555;font-family:var(--font-mono);font-size:0.8rem;padding:1rem;">Could not load repos. Check network or GitHub username.</p>';
+      }
     }
   }
   fetchRepos();
@@ -1534,6 +1751,28 @@
     const full = p1 + p2;
     emailEl.setAttribute('href', 'mail' + 'to:' + full);
     emailText.textContent = full;
+
+    const copyBtn = document.getElementById('emailCopy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(full);
+        } catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = full;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        copyBtn.classList.add('copied');
+        copyBtn.textContent = 'Copied \u2713';
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.textContent = '\u29C9 Copy';
+        }, 1500);
+      });
+    }
   }
 
   // Active nav highlight + scroll progress bar
